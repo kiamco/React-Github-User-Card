@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Axios from 'axios';
-
+import UserCard from './Components/userCard.js'
 
 class App extends React.Component{
 
@@ -13,6 +13,7 @@ class App extends React.Component{
     Axios.get(api)
     .then(res => {
       this.setState({userInfo: res.data})
+      console.log(this.state)
     })
     .catch(err => err)
   }
@@ -24,7 +25,10 @@ class App extends React.Component{
   render(){
     return(
       <div className='App'>
-        <h1>hello</h1>
+        <UserCard 
+          avatar={this.state.userInfo.avatar_url}
+          name={this.state.userInfo.name}
+          getGitApiData={this.getGitApiData} />
       </div>
     )
   }
