@@ -137,3 +137,10 @@ table {
 *{
   box-sizing: border-box;
 }
+
+.button-links{
+  margin:auto;
+  align-items: center;
+  width:200px;
+}
+
