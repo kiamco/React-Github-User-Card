@@ -1,16 +1,20 @@
 import React from 'react';
 import './App.css';
 import Axios from 'axios';
-import UserCard from './Components/userCard.js'
+import UserCard from './Components/userCard.js';
 import Styled from 'styled-components';
-import { Route } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
+import LinkAcc from './Components/followerAndFollowing.js';
 
-const Button = Styled.button`
+
+
+const Button = Styled.h1`
   background: #333;
   border: 2px solid #333;
   margin: 10px;
   color: white;
   transition:1s;
+  padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   &:hover{
     background: #6cc644;
@@ -52,14 +56,20 @@ class App extends React.Component {
           name={this.state.userInfo.name}
           repos={this.state.userInfo.public_repos}
           followers={this.state.userInfo.followers}
-          following={this.state.following}
-          getGitApiData={this.getGitApiData} />
+          following={this.state.userInfo.following}
+           />
+
         <div className='button-links'>
-          <Button>Followers</Button>
-          <Button>Following</Button>
+          <NavLink to='/followers'>
+            <Button>Followers</Button>
+          </NavLink>
+          <NavLink to='/following'>
+            <Button>Following</Button>
+          </NavLink>
         </div>
 
-        {/* <Route exact to='/followers' component={} /> */}
+        <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} />} />
+        <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} />} />
       </div>
 
     )

@@ -28,8 +28,9 @@ class UserCard extends React.Component {
                 </div>
                 <UserDetails>
                     <h1>Name: {this.props.name}</h1>
-                    <p>Followers: {this.props.followers}</p>
                     <p>Number of Repos: {this.props.repos}</p>
+                    <p>Following: {this.props.following}</p>
+                    <p>Followers: {this.props.followers}</p>
                 </UserDetails>
             </CardContainer>
         )
