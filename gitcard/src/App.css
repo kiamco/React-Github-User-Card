@@ -155,3 +155,11 @@ table {
     justify-content: space-around;
     align-items: center;
 }
+
+.active {
+    background: #6cc644;
+}
+
+a {
+    text-decoration: none;
+}

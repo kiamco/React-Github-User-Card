@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import Axios from 'axios';
-import UserCard from './Components/userCard.js'
+import UserCard from './Components/userCard.js';
 import Styled from 'styled-components';
-import LinkAcc from './Components/followerAndFollowing.js'
-import { Route, NavLink } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
+import LinkAcc from './Components/followerAndFollowing.js';
 
 
-const Button = Styled.button`
+
+const Button = Styled.h1`
   background: #333;
   border: 2px solid #333;
   margin: 10px;
@@ -55,16 +56,20 @@ class App extends React.Component {
           name={this.state.userInfo.name}
           repos={this.state.userInfo.public_repos}
           followers={this.state.userInfo.followers}
-          following={this.state.following}
-          getGitApiData={this.getGitApiData} />
+          following={this.state.userInfo.following}
+           />
+
         <div className='button-links'>
-          <Navlink to='/followers'>
+          <NavLink to='/followers'>
             <Button>Followers</Button>
-          </Navlink>
-          <Button>Following</Button>
+          </NavLink>
+          <NavLink to='/following'>
+            <Button>Following</Button>
+          </NavLink>
         </div>
 
         <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} />} />
+        <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} />} />
       </div>
 
     )
