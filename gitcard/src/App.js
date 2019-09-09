@@ -5,7 +5,8 @@ import UserCard from './Components/userCard.js';
 import Styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
 import LinkAcc from './Components/followerAndFollowing.js';
-import Repos from './Components/repos.js'
+import Repos from './Components/repos.js';
+import Search from './Components/home.js';
 
 
 
@@ -95,6 +96,7 @@ class App extends React.Component {
           </NavLink>
         </div>
 
+        <Route exact path='/search' component={(props) => <Search {...props} />} />
         <Route exact path='/repos' component={(props) => <Repos {...props} repoData={this.state.repos} />} />
         <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} getNewUser={this.getUser} />} />
         <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} getNewUser={this.getUser} />} />
