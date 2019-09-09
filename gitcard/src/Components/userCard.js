@@ -20,6 +20,8 @@ const UserDetails = Styled.div`
 `
 class UserCard extends React.Component {
 
+    
+
     render() {
         return (
             <CardContainer>

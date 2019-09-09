@@ -5,6 +5,8 @@ import UserCard from './Components/userCard.js';
 import Styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
 import LinkAcc from './Components/followerAndFollowing.js';
+import Repos from './Components/repos.js';
+import Search from './Components/home.js';
 
 
 
@@ -28,24 +30,47 @@ class App extends React.Component {
   state = {
     userInfo: [],
     following: [],
-    followers: []
+    followers: [],
+    user: 'kiamco',
+    repos: []
   }
 
-  getGitApiData = (first, second, third) => {
+  getGitApiData = (first, second, third, fourth) => {
     Axios.all([Axios.get(first),
     Axios.get(second),
-    Axios.get(third)])
-      .then(Axios.spread((first, second, third) => {
-        this.setState({ userInfo: first.data, following: second.data, followers: third.data })
+    Axios.get(third),
+    Axios.get(fourth)
+    ])
+      .then(Axios.spread((first, second, third, fourth) => {
+        this.setState({
+          userInfo: first.data,
+          following: second.data,
+          followers: third.data,
+          repos: fourth.data
+        })
         console.log(this.state);
       }))
 
   }
 
   componentDidMount() {
-    this.getGitApiData('https://api.github.com/users/kiamco',
-      "https://api.github.com/users/kiamco/following",
-      'https://api.github.com/users/kiamco/followers');
+    this.getGitApiData(`https://api.github.com/users/${this.state.user}`,
+      `https://api.github.com/users/${this.state.user}/following`,
+      `https://api.github.com/users/${this.state.user}/followers`,
+      `https://api.github.com/users/${this.state.user}/repos`);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.user !== this.state.user) {
+      this.setState({ userInfo: this.state.user });
+      this.getGitApiData(`https://api.github.com/users/${this.state.user}`,
+        `https://api.github.com/users/${this.state.user}/following`,
+        `https://api.github.com/users/${this.state.user}/followers`);
+    }
+  }
+
+  getUser = (otherUser) => {
+    this.setState({ user: otherUser });
   }
 
   render() {
@@ -57,9 +82,12 @@ class App extends React.Component {
           repos={this.state.userInfo.public_repos}
           followers={this.state.userInfo.followers}
           following={this.state.userInfo.following}
-           />
+        />
 
         <div className='button-links'>
+          <NavLink to='/repos'>
+            <Button>Repos</Button>
+          </NavLink>
           <NavLink to='/followers'>
             <Button>Followers</Button>
           </NavLink>
@@ -68,8 +96,10 @@ class App extends React.Component {
           </NavLink>
         </div>
 
-        <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} />} />
-        <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} />} />
+        <Route exact path='/search' component={(props) => <Search {...props} />} />
+        <Route exact path='/repos' component={(props) => <Repos {...props} repoData={this.state.repos} />} />
+        <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} getNewUser={this.getUser} />} />
+        <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} getNewUser={this.getUser} />} />
       </div>
 
     )
