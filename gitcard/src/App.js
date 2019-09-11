@@ -65,7 +65,8 @@ class App extends React.Component {
       this.setState({ userInfo: this.state.user });
       this.getGitApiData(`https://api.github.com/users/${this.state.user}`,
         `https://api.github.com/users/${this.state.user}/following`,
-        `https://api.github.com/users/${this.state.user}/followers`);
+        `https://api.github.com/users/${this.state.user}/followers`,
+        `https://api.github.com/users/${this.state.user}/repos`);
     }
   }
 
