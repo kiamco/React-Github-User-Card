@@ -6,7 +6,7 @@ import Styled from 'styled-components';
 import { NavLink, Route } from 'react-router-dom';
 import LinkAcc from './Components/followerAndFollowing.js';
 import Repos from './Components/repos.js';
-import Search from './Components/home.js';
+import Search from './Components/searchBar.js';
 
 
 
@@ -53,6 +53,12 @@ class App extends React.Component {
 
   }
 
+  searchUser = (newUser) => {
+    this.setState({
+      user:newUser,
+    })
+  }
+
   componentDidMount() {
     this.getGitApiData(`https://api.github.com/users/${this.state.user}`,
       `https://api.github.com/users/${this.state.user}/following`,
@@ -62,21 +68,29 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.user !== this.state.user) {
-      this.setState({ userInfo: this.state.user });
+      
+      console.log(this.state);
+      this.setState({ userInfo: this.state.user, user:this.state.user });
+
       this.getGitApiData(`https://api.github.com/users/${this.state.user}`,
         `https://api.github.com/users/${this.state.user}/following`,
         `https://api.github.com/users/${this.state.user}/followers`,
         `https://api.github.com/users/${this.state.user}/repos`);
+
+      console.log(this.state)
+
     }
   }
 
   getUser = (otherUser) => {
     this.setState({ user: otherUser });
+    
   }
 
   render() {
     return (
       <div className='App'>
+        <Search searchUser={this.getUser} />
         <UserCard
           avatar={this.state.userInfo.avatar_url}
           name={this.state.userInfo.name}
@@ -97,7 +111,6 @@ class App extends React.Component {
           </NavLink>
         </div>
 
-        <Route exact path='/search' component={(props) => <Search {...props} />} />
         <Route exact path='/repos' component={(props) => <Repos {...props} repoData={this.state.repos} />} />
         <Route exact path='/followers' component={(props) => <LinkAcc {...props} followers={this.state.followers} getNewUser={this.getUser} />} />
         <Route exact path='/following' component={(props) => <LinkAcc {...props} followers={this.state.following} getNewUser={this.getUser} />} />

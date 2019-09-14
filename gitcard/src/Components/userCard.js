@@ -3,7 +3,7 @@ import Styled from 'styled-components';
 
 const CardContainer = Styled.div`
     background: #333;
-    margin:10px auto;
+    margin:0px auto 10px;;
     display:flex;
     flex-flow: row wrap;
 `
